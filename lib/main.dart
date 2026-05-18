@@ -18,6 +18,7 @@ const _spreadsheetName = 'Support App Data';
 const _driveFolderId = '1Ch-zzljZl8_sZK-4DXtzD86-eqNUAk5X';
 const _credentialsAsset = 'assets/credentials.json';
 const _manualFilesKey = 'manual_guide_files';
+const _imagePickerKey = 'image_picker';
 
 void main() {
   runApp(const MyApp());
@@ -187,7 +188,9 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-// ------------------------- Statistics Screen ------------------------- 
+}
+
+// ------------------------- Statistics Screen -------------------------
 class StatisticsScreen extends StatelessWidget {
   const StatisticsScreen({super.key});
 
@@ -200,17 +203,25 @@ class StatisticsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('PM Notes: ${SheetSyncService.instance.pmNotes.length}', style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'PM Notes: ${SheetSyncService.instance.pmNotes.length}',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 8),
-            Text('CM Notes: ${SheetSyncService.instance.cmNotes.length}', style: Theme.of(context).textTheme.titleLarge),
+            Text(
+              'CM Notes: ${SheetSyncService.instance.cmNotes.length}',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 24),
-            Text('เพิ่มงาน PM/CM แล้วจะเห็นจำนวนอัปเดตที่นี่ทันที', style: Theme.of(context).textTheme.bodyMedium),
+            Text(
+              'เพิ่มงาน PM/CM แล้วจะเห็นจำนวนอัปเดตที่นี่ทันที',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ],
         ),
       ),
     );
   }
-}
 }
 
 // ------------------------- Remaining screens and helpers -------------------------
@@ -269,9 +280,9 @@ class _CMWorkNotesScreenState extends State<CMWorkNotesScreen> {
       ),
     );
     if (saved == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('บันทึกงานเรียบร้อยแล้ว')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('บันทึกงานเรียบร้อยแล้ว')));
     }
   }
 
@@ -296,9 +307,9 @@ class _CMWorkNotesScreenState extends State<CMWorkNotesScreen> {
       ),
     );
     if (updated == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('บันทึกงานเรียบร้อยแล้ว')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('บันทึกงานเรียบร้อยแล้ว')));
     }
   }
 
@@ -440,9 +451,9 @@ class _PMWorkNotesScreenState extends State<PMWorkNotesScreen> {
       ),
     );
     if (saved == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('บันทึกงานเรียบร้อยแล้ว')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('บันทึกงานเรียบร้อยแล้ว')));
     }
   }
 
@@ -467,9 +478,9 @@ class _PMWorkNotesScreenState extends State<PMWorkNotesScreen> {
       ),
     );
     if (updated == true && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('บันทึกงานเรียบร้อยแล้ว')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('บันทึกงานเรียบร้อยแล้ว')));
     }
   }
 
@@ -889,7 +900,8 @@ class MicrophoneEntry {
 }
 
 class AddNoteDialog extends StatefulWidget {
-  final Function(String title, String description, List<String> imagePaths) onAdd;
+  final Function(String title, String description, List<String> imagePaths)
+  onAdd;
 
   const AddNoteDialog({super.key, required this.onAdd});
 
@@ -1288,7 +1300,7 @@ class _AddNoteDialogState extends State<AddNoteDialog> {
   List<String> _imagePaths = [];
 
   Future<void> _pickImages() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.image,
       allowMultiple: true,
     );
@@ -1328,9 +1340,11 @@ class _AddNoteDialogState extends State<AddNoteDialog> {
             ElevatedButton.icon(
               onPressed: _pickImages,
               icon: const Icon(Icons.image),
-              label: Text(_imagePaths.isEmpty
-                  ? 'Add Images'
-                  : '${_imagePaths.length} images selected'),
+              label: Text(
+                _imagePaths.isEmpty
+                    ? 'Add Images'
+                    : '${_imagePaths.length} images selected',
+              ),
             ),
           ],
         ),
@@ -1397,10 +1411,7 @@ class NoteCard extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 6),
                 child: Text(
                   '${note.imagePaths.length} รูปภาพ',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[400],
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey[400]),
                 ),
               ),
           ],
@@ -1476,7 +1487,9 @@ class MicrophoneCard extends StatelessWidget {
 class EditNoteDialog extends StatefulWidget {
   final WorkNote note;
   final Function(String, String, List<String> imagePaths) onSave;
+
   const EditNoteDialog({super.key, required this.note, required this.onSave});
+
   @override
   State<EditNoteDialog> createState() => _EditNoteDialogState();
 }
@@ -1495,7 +1508,7 @@ class _EditNoteDialogState extends State<EditNoteDialog> {
   }
 
   Future<void> _pickImages() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.image,
       allowMultiple: true,
     );
@@ -1521,9 +1534,11 @@ class _EditNoteDialogState extends State<EditNoteDialog> {
           ElevatedButton.icon(
             onPressed: _pickImages,
             icon: const Icon(Icons.image),
-            label: Text(_imagePaths.isEmpty
-                ? 'Add Images'
-                : '${_imagePaths.length} images selected'),
+            label: Text(
+              _imagePaths.isEmpty
+                  ? 'Add Images'
+                  : '${_imagePaths.length} images selected',
+            ),
           ),
         ],
       ),
@@ -1550,7 +1565,9 @@ class _EditNoteDialogState extends State<EditNoteDialog> {
 
 class AddWiFiDialog extends StatefulWidget {
   final Function(String, String) onAdd;
+
   const AddWiFiDialog({super.key, required this.onAdd});
+
   @override
   State<AddWiFiDialog> createState() => _AddWiFiDialogState();
 }
@@ -1584,7 +1601,9 @@ class _AddWiFiDialogState extends State<AddWiFiDialog> {
 class EditWiFiDialog extends StatefulWidget {
   final WiFiEntry entry;
   final Function(String, String) onSave;
+
   const EditWiFiDialog({super.key, required this.entry, required this.onSave});
+
   @override
   State<EditWiFiDialog> createState() => _EditWiFiDialogState();
 }
@@ -1624,7 +1643,9 @@ class _EditWiFiDialogState extends State<EditWiFiDialog> {
 
 class AddMicDialog extends StatefulWidget {
   final Function(String, String) onAdd;
+
   const AddMicDialog({super.key, required this.onAdd});
+
   @override
   State<AddMicDialog> createState() => _AddMicDialogState();
 }
@@ -1658,7 +1679,9 @@ class _AddMicDialogState extends State<AddMicDialog> {
 class EditMicDialog extends StatefulWidget {
   final MicrophoneEntry entry;
   final Function(String, String) onSave;
+
   const EditMicDialog({super.key, required this.entry, required this.onSave});
+
   @override
   State<EditMicDialog> createState() => _EditMicDialogState();
 }
@@ -1706,17 +1729,24 @@ class SheetSyncService {
     if (title == 'CM') return List<WorkNote>.from(cmNotes);
     return [];
   }
+
   Future<void> addWorkNote(String title, WorkNote note) async {
     if (title == 'PM') pmNotes.add(note);
     if (title == 'CM') cmNotes.add(note);
   }
+
   Future<void> updateWorkNote(String title, int index, WorkNote note) async {
-    if (title == 'PM' && index >= 0 && index < pmNotes.length) pmNotes[index] = note;
-    if (title == 'CM' && index >= 0 && index < cmNotes.length) cmNotes[index] = note;
+    if (title == 'PM' && index >= 0 && index < pmNotes.length)
+      pmNotes[index] = note;
+    if (title == 'CM' && index >= 0 && index < cmNotes.length)
+      cmNotes[index] = note;
   }
+
   Future<void> deleteSheetRow(String title, int index) async {
-    if (title == 'PM' && index >= 0 && index < pmNotes.length) pmNotes.removeAt(index);
-    if (title == 'CM' && index >= 0 && index < cmNotes.length) cmNotes.removeAt(index);
+    if (title == 'PM' && index >= 0 && index < pmNotes.length)
+      pmNotes.removeAt(index);
+    if (title == 'CM' && index >= 0 && index < cmNotes.length)
+      cmNotes.removeAt(index);
   }
 
   SheetSyncService._private();
