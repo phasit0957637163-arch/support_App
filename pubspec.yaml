@@ -78,6 +78,8 @@ flutter:
 
   assets:
     - assets/credentials.json
+    - assets/fonts/Sarabun-Regular.ttf
+    - assets/fonts/Sarabun-Bold.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

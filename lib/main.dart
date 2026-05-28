@@ -21,37 +21,77 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Support App',
-      theme: ThemeData.dark().copyWith(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.cyanAccent,
-          brightness: Brightness.dark,
+      theme: ThemeData.light().copyWith(
+        colorScheme: const ColorScheme.light(
+          primary: Color(0xFFB28DFF),
+          onPrimary: Colors.white,
+          secondary: Color(0xFF98D6EA),
+          onSecondary: Color(0xFF0F172A),
+          tertiary: Color(0xFFFAD9C1),
+          surface: Color(0xFFF8F6FF),
+          onSurface: Color(0xFF1E293B),
+          error: Color(0xFFEF4444),
         ),
-        scaffoldBackgroundColor: const Color(0xFF07101B),
+        scaffoldBackgroundColor: const Color(0xFFF7F2FF),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF081827),
-          elevation: 2,
+          backgroundColor: Color(0xFFFFFFFF),
+          elevation: 0,
           centerTitle: true,
           titleTextStyle: TextStyle(
             fontSize: 22,
-            fontWeight: FontWeight.w700,
-            color: Colors.cyanAccent,
-            letterSpacing: 0.8,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF5B21B6),
+            letterSpacing: 0.4,
           ),
+          iconTheme: IconThemeData(color: Color(0xFF5B21B6)),
         ),
+        iconTheme: const IconThemeData(color: Color(0xFF7C3AED)),
         cardTheme: CardThemeData(
-          color: const Color(0xFF0C1928),
+          color: const Color(0xFFFFFFFF),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(18),
           ),
-          elevation: 6,
+          elevation: 2,
+          shadowColor: const Color(0x18000000),
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: const Color(0xFF122136),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide.none,
+          fillColor: const Color(0xFFF3F0FF),
+          labelStyle: const TextStyle(color: Color(0xFF7C3AED)),
+          hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(color: Color(0xFFB28DFF), width: 1.5),
           ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(color: Colors.transparent, width: 0),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF98D6EA),
+            foregroundColor: const Color(0xFF0F172A),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(vertical: 14),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            side: const BorderSide(color: Color(0xFFB28DFF)),
+            foregroundColor: const Color(0xFF5B21B6),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 14),
+          ),
+        ),
+        textTheme: ThemeData.light().textTheme.copyWith(
+          bodyLarge: const TextStyle(color: Color(0xFF1E293B)),
+          bodyMedium: const TextStyle(color: Color(0xFF475569)),
         ),
       ),
       home: const HomeScreen(),
@@ -80,41 +120,55 @@ class HomeScreen extends StatelessWidget {
                   final items = <Map<String, Object>>[
                     {
                       'icon': Icons.work_outline,
+                      'color': const Color(0xFF8B5CF6),
                       'label': 'PM Work Notes',
                       'builder': () => const PMWorkNotesScreen(),
                     },
                     {
                       'icon': Icons.build_outlined,
+                      'color': const Color(0xFF38BDF8),
                       'label': 'CM Work Notes',
                       'builder': () => const CMWorkNotesScreen(),
                     },
                     {
                       'icon': Icons.bar_chart,
+                      'color': const Color(0xFFF97316),
                       'label': 'Statistics',
                       'builder': () => const StatisticsScreen(),
                     },
                     {
                       'icon': Icons.vpn_key,
+                      'color': const Color(0xFF22C55E),
                       'label': 'ID / Password',
                       'builder': () => const IdPasswordScreen(),
                     },
                     {
                       'icon': Icons.picture_as_pdf,
+                      'color': const Color(0xFFFB7185),
                       'label': 'Reports',
                       'builder': () => const ReportsScreen(),
                     },
                     {
                       'icon': Icons.folder,
+                      'color': const Color(0xFF0EA5E9),
                       'label': 'Manual Files',
                       'builder': () => const ManualFilesScreen(),
                     },
                     {
                       'icon': Icons.wifi,
+                      'color': const Color(0xFF7C3AED),
                       'label': 'WiFi',
                       'builder': () => const WiFiPasswordScreen(),
                     },
                     {
+                      'icon': Icons.schedule,
+                      'color': const Color(0xFFF59E0B),
+                      'label': 'Shift Schedule',
+                      'builder': () => const ShiftScheduleScreen(),
+                    },
+                    {
                       'icon': Icons.mic,
+                      'color': const Color(0xFF06B6D4),
                       'label': 'Microphone',
                       'builder': () => const MicrophoneChannelScreen(),
                     },
@@ -127,6 +181,7 @@ class HomeScreen extends StatelessWidget {
                     childAspectRatio: 0.95,
                     children: items.map((it) {
                       final icon = it['icon'] as IconData;
+                      final iconColor = it['color'] as Color;
                       final label = it['label'] as String;
                       final builder = it['builder'] as Widget Function();
                       return GestureDetector(
@@ -145,14 +200,8 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 28,
-                                  backgroundColor: Colors.cyanAccent.withAlpha(
-                                    32,
-                                  ),
-                                  child: Icon(
-                                    icon,
-                                    size: 28,
-                                    color: Colors.cyanAccent,
-                                  ),
+                                  backgroundColor: iconColor.withAlpha(46),
+                                  child: Icon(icon, size: 28, color: iconColor),
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
@@ -197,6 +246,51 @@ class StatisticsScreen extends StatefulWidget {
 class _StatisticsScreenState extends State<StatisticsScreen> {
   String _selectedType = 'All';
   DateTime? _month;
+  int _selectedYear = DateTime.now().year;
+  int? _selectedOverviewMonth;
+  String _chartView = 'type';
+  bool _loading = true;
+  String? _error;
+
+  static const List<String> _monthNames = [
+    'ม.ค.',
+    'ก.พ.',
+    'มี.ค.',
+    'เม.ย.',
+    'พ.ค.',
+    'มิ.ย.',
+    'ก.ค.',
+    'ส.ค.',
+    'ก.ย.',
+    'ต.ค.',
+    'พ.ย.',
+    'ธ.ค.',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotes();
+  }
+
+  Future<void> _loadNotes() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      await SheetSyncService.instance.fetchWorkNotes('PM');
+      await SheetSyncService.instance.fetchWorkNotes('CM');
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
+    }
+  }
 
   void _pickMonth() async {
     final picked = await showDatePicker(
@@ -225,6 +319,46 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         .length;
   }
 
+  Map<int, int> _countsByMonthForYear() {
+    final notes = _selectedType == 'All'
+        ? [
+            ...SheetSyncService.instance.pmNotes,
+            ...SheetSyncService.instance.cmNotes,
+          ]
+        : _selectedType == 'PM'
+        ? SheetSyncService.instance.pmNotes
+        : SheetSyncService.instance.cmNotes;
+
+    final counts = Map<int, int>.fromIterables(
+      List.generate(12, (index) => index + 1),
+      List.generate(12, (_) => 0),
+    );
+
+    for (final note in notes) {
+      if (note.scheduledAt.year != _selectedYear) continue;
+      counts[note.scheduledAt.month] = counts[note.scheduledAt.month]! + 1;
+    }
+    return counts;
+  }
+
+  List<int> _availableYears() {
+    final years = <int>{};
+    years.add(DateTime.now().year);
+    years.addAll(
+      SheetSyncService.instance.pmNotes.map((note) => note.scheduledAt.year),
+    );
+    years.addAll(
+      SheetSyncService.instance.cmNotes.map((note) => note.scheduledAt.year),
+    );
+    final sorted = years.toList()..sort();
+    return sorted;
+  }
+
+  String _formatMonthLabel(int month) {
+    if (month < 1 || month > 12) return month.toString();
+    return _monthNames[month - 1];
+  }
+
   @override
   Widget build(BuildContext context) {
     final pmCount = _countNotes('PM');
@@ -238,71 +372,197 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     final monthLabel = _month == null
         ? 'All months'
         : '${_month!.year}-${_month!.month.toString().padLeft(2, '0')}';
+    final monthlyCountsByYear = _countsByMonthForYear();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Statistics'), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Filter by type'),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              children: [
-                ChoiceChip(
-                  label: const Text('All'),
-                  selected: _selectedType == 'All',
-                  onSelected: (_) => setState(() => _selectedType = 'All'),
-                ),
-                ChoiceChip(
-                  label: const Text('PM'),
-                  selected: _selectedType == 'PM',
-                  onSelected: (_) => setState(() => _selectedType = 'PM'),
-                ),
-                ChoiceChip(
-                  label: const Text('CM'),
-                  selected: _selectedType == 'CM',
-                  onSelected: (_) => setState(() => _selectedType = 'CM'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _pickMonth,
-              child: Text('Month: $monthLabel'),
-            ),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: _StatCard(label: 'PM', value: pmCount),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _StatCard(label: 'CM', value: cmCount),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: _StatCard(label: 'Total', value: total),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: Center(
-                child: _StatPieChart(pmCount: pmCount, cmCount: cmCount),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? Center(child: Text('Error loading data: $_error'))
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Filter by type'),
+                  const SizedBox(height: 8),
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      ChoiceChip(
+                        label: const Text('All'),
+                        selected: _selectedType == 'All',
+                        onSelected: (_) =>
+                            setState(() => _selectedType = 'All'),
+                      ),
+                      ChoiceChip(
+                        label: const Text('PM'),
+                        selected: _selectedType == 'PM',
+                        onSelected: (_) => setState(() => _selectedType = 'PM'),
+                      ),
+                      ChoiceChip(
+                        label: const Text('CM'),
+                        selected: _selectedType == 'CM',
+                        onSelected: (_) => setState(() => _selectedType = 'CM'),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 8,
+                    children: [
+                      ElevatedButton(
+                        onPressed: _pickMonth,
+                        child: Text('Month: $monthLabel'),
+                      ),
+                      ChoiceChip(
+                        label: const Text('Chart by type'),
+                        selected: _chartView == 'type',
+                        onSelected: (_) => setState(() {
+                          _chartView = 'type';
+                          _selectedOverviewMonth = null;
+                        }),
+                      ),
+                      ChoiceChip(
+                        label: const Text('Monthly overview'),
+                        selected: _chartView == 'monthly',
+                        onSelected: (_) => setState(() {
+                          _chartView = 'monthly';
+                          _selectedOverviewMonth = null;
+                        }),
+                      ),
+                    ],
+                  ),
+                  if (_chartView == 'monthly') ...[
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        const Text('Year:'),
+                        const SizedBox(width: 8),
+                        DropdownButton<int>(
+                          value: _selectedYear,
+                          items: _availableYears().map((year) {
+                            return DropdownMenuItem(
+                              value: year,
+                              child: Text(year.toString()),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                _selectedYear = value;
+                                _selectedOverviewMonth = null;
+                              });
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      height: 44,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(12, (index) {
+                            final month = index + 1;
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: ChoiceChip(
+                                label: Text(_formatMonthLabel(month)),
+                                selected: _selectedOverviewMonth == month,
+                                onSelected: (_) {
+                                  setState(() {
+                                    _selectedOverviewMonth =
+                                        _selectedOverviewMonth == month
+                                        ? null
+                                        : month;
+                                  });
+                                },
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _StatCard(label: 'PM', value: pmCount),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _StatCard(label: 'CM', value: cmCount),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _StatCard(label: 'Total', value: total),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  Expanded(
+                    child: Center(
+                      child: _chartView == 'type'
+                          ? Column(
+                              children: [
+                                Expanded(
+                                  child: _StatPieChart(
+                                    pmCount: pmCount,
+                                    cmCount: cmCount,
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    _LegendDot(
+                                      color: Colors.cyanAccent,
+                                      label: 'PM',
+                                    ),
+                                    SizedBox(width: 16),
+                                    _LegendDot(
+                                      color: Colors.orangeAccent,
+                                      label: 'CM',
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                Expanded(
+                                  child: _MonthlyPieChart(
+                                    counts: monthlyCountsByYear,
+                                    formatLabel: _formatMonthLabel,
+                                  ),
+                                ),
+                                if (_selectedOverviewMonth != null)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 12),
+                                    child: Text(
+                                      'Selected ${_formatMonthLabel(_selectedOverviewMonth!)}: ${monthlyCountsByYear[_selectedOverviewMonth!] ?? 0} records',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Showing ${_selectedType == 'All' ? 'all' : _selectedType} records for $monthLabel: $selectedCount total.',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 16),
-            Text(
-              'Showing ${_selectedType == 'All' ? 'all' : _selectedType} records for $monthLabel: $selectedCount total.',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -333,6 +593,29 @@ class _StatCard extends StatelessWidget {
   }
 }
 
+class _LegendDot extends StatelessWidget {
+  final Color color;
+  final String label;
+
+  const _LegendDot({required this.color, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: 8),
+        Text(label, style: Theme.of(context).textTheme.bodyMedium),
+      ],
+    );
+  }
+}
+
 class _StatPieChart extends StatelessWidget {
   final int pmCount;
   final int cmCount;
@@ -359,6 +642,145 @@ class _StatPieChart extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _MonthlyPieChart extends StatelessWidget {
+  final Map<int, int> counts;
+  final String Function(int) formatLabel;
+
+  const _MonthlyPieChart({required this.counts, required this.formatLabel});
+
+  static const _colors = [
+    Colors.cyanAccent,
+    Colors.orangeAccent,
+    Colors.greenAccent,
+    Colors.purpleAccent,
+    Colors.amberAccent,
+    Colors.lightBlueAccent,
+    Colors.pinkAccent,
+  ];
+
+  Color _colorForIndex(int index) => _colors[index % _colors.length];
+
+  @override
+  Widget build(BuildContext context) {
+    final total = counts.values.fold(0, (sum, value) => sum + value);
+    if (total == 0) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.pie_chart_outline, size: 64, color: Colors.grey),
+          const SizedBox(height: 12),
+          Text('No monthly data', style: Theme.of(context).textTheme.bodyLarge),
+        ],
+      );
+    }
+
+    final entries = counts.entries.toList();
+
+    return Column(
+      children: [
+        Expanded(
+          child: AspectRatio(
+            aspectRatio: 1,
+            child: CustomPaint(
+              painter: _MonthlyPiePainter(
+                values: entries.map((e) => e.value).toList(),
+                colors: List.generate(entries.length, _colorForIndex),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Monthly overview',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Text(
+                      '$total total',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        Expanded(
+          child: SingleChildScrollView(
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: List.generate(entries.length, (index) {
+                final entry = entries[index];
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade900,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: _colorForIndex(index),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${formatLabel(entry.key)}: ${entry.value}',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MonthlyPiePainter extends CustomPainter {
+  final List<int> values;
+  final List<Color> colors;
+
+  _MonthlyPiePainter({required this.values, required this.colors});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final total = values.fold(0, (sum, value) => sum + value);
+    final rect = Offset.zero & size;
+    final paint = Paint()..style = PaintingStyle.fill;
+    if (total == 0) {
+      paint.color = Colors.grey.shade800;
+      canvas.drawArc(rect, 0, 2 * pi, true, paint);
+      return;
+    }
+
+    var startAngle = -pi / 2;
+    for (var i = 0; i < values.length; i++) {
+      final sweep = 2 * pi * (values[i] / total);
+      paint.color = colors[i];
+      canvas.drawArc(rect, startAngle, sweep, true, paint);
+      startAngle += sweep;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _MonthlyPiePainter oldDelegate) {
+    return oldDelegate.values != values || oldDelegate.colors != colors;
   }
 }
 
@@ -708,6 +1130,827 @@ class _PMWorkNotesScreenState extends State<PMWorkNotesScreen> {
   }
 }
 
+class ShiftScheduleScreen extends StatefulWidget {
+  const ShiftScheduleScreen({super.key});
+
+  @override
+  State<ShiftScheduleScreen> createState() => _ShiftScheduleScreenState();
+}
+
+class _ShiftScheduleScreenState extends State<ShiftScheduleScreen> {
+  final TextEditingController _customNameController = TextEditingController();
+  final List<String> _availableNames = ['พัท', 'ซาวด์', 'เตย'];
+  final List<String> _morningNames = [];
+  final List<String> _nightNames = [];
+  final List<String> _dayOffNames = [];
+  String? _selectedMorningAdd;
+  String? _selectedNightAdd;
+  String? _selectedDayOffAdd;
+  DateTime _scheduleDate = DateTime.now();
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSchedule();
+  }
+
+  @override
+  void dispose() {
+    _customNameController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadSchedule() async {
+    setState(() {
+      _loading = true;
+    });
+    final saved = await SheetSyncService.instance.fetchShiftSchedule();
+    final names = List<String>.from(_availableNames);
+    for (final entry in saved) {
+      for (final staff in entry.staffNames) {
+        if (staff.isNotEmpty && !names.contains(staff)) {
+          names.add(staff);
+        }
+      }
+    }
+
+    setState(() {
+      _availableNames.clear();
+      _availableNames.addAll(names);
+      if (saved.isNotEmpty) {
+        _morningNames.clear();
+        _morningNames.addAll(
+          saved
+              .firstWhere(
+                (entry) => entry.shiftLabel == 'A',
+                orElse: () => ShiftEntry(
+                  shiftLabel: 'A',
+                  staffNames: [],
+                  scheduleDate: _scheduleDate,
+                ),
+              )
+              .staffNames,
+        );
+        _nightNames.clear();
+        _nightNames.addAll(
+          saved
+              .firstWhere(
+                (entry) => entry.shiftLabel == 'B',
+                orElse: () => ShiftEntry(
+                  shiftLabel: 'B',
+                  staffNames: [],
+                  scheduleDate: _scheduleDate,
+                ),
+              )
+              .staffNames,
+        );
+        _dayOffNames.clear();
+        _dayOffNames.addAll(
+          saved
+              .firstWhere(
+                (entry) => entry.shiftLabel == 'Day off',
+                orElse: () => ShiftEntry(
+                  shiftLabel: 'Day off',
+                  staffNames: [],
+                  scheduleDate: _scheduleDate,
+                ),
+              )
+              .staffNames,
+        );
+        _scheduleDate = saved.first.scheduleDate;
+      }
+      _selectedMorningAdd = _availableNames.isNotEmpty
+          ? _availableNames[0]
+          : null;
+      _selectedNightAdd = _availableNames.isNotEmpty
+          ? _availableNames[0]
+          : null;
+      _selectedDayOffAdd = _availableNames.isNotEmpty
+          ? _availableNames[0]
+          : null;
+      _loading = false;
+    });
+  }
+
+  Future<void> _saveSchedule() async {
+    final entries = [
+      ShiftEntry(
+        shiftLabel: 'A',
+        staffNames: List.from(_morningNames),
+        scheduleDate: _scheduleDate,
+      ),
+      ShiftEntry(
+        shiftLabel: 'B',
+        staffNames: List.from(_nightNames),
+        scheduleDate: _scheduleDate,
+      ),
+      ShiftEntry(
+        shiftLabel: 'Day off',
+        staffNames: List.from(_dayOffNames),
+        scheduleDate: _scheduleDate,
+      ),
+    ];
+    await SheetSyncService.instance.saveShiftSchedule(entries);
+    for (final name in [..._morningNames, ..._nightNames]) {
+      if (name.isNotEmpty && !_availableNames.contains(name)) {
+        _availableNames.add(name);
+      }
+    }
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('บันทึกตารางกะเรียบร้อยแล้ว')),
+      );
+    }
+  }
+
+  Future<void> _viewSavedSchedule() async {
+    final saved = await SheetSyncService.instance.fetchShiftSchedule();
+    if (!mounted) return;
+    if (saved.isEmpty) {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('ผลการบันทึก'),
+          content: const Text('ยังไม่มีตารางกะที่บันทึกไว้'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('ปิด'),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    if (!mounted) return;
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ShiftScheduleResultScreen(
+          entries: saved,
+          dateText: _formatDate(saved.first.scheduleDate),
+        ),
+      ),
+    );
+  }
+
+  void _addCustomName() {
+    final name = _customNameController.text.trim();
+    if (name.isEmpty) return;
+    if (!_availableNames.contains(name)) {
+      setState(() {
+        _availableNames.add(name);
+        _selectedMorningAdd ??= name;
+        _selectedNightAdd ??= name;
+        _selectedDayOffAdd ??= name;
+      });
+    }
+    _customNameController.clear();
+  }
+
+  void _addStaffToShift(List<String> shiftList, String? staff) {
+    if (staff == null || staff.isEmpty) return;
+    if (shiftList.contains(staff)) return;
+    if (shiftList.length >= 3) return;
+    setState(() {
+      shiftList.add(staff);
+    });
+  }
+
+  void _removeStaffFromShift(List<String> shiftList, int index) {
+    setState(() {
+      shiftList.removeAt(index);
+    });
+  }
+
+  Future<void> _pickScheduleDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _scheduleDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+      helpText: 'เลือกวันที่ตารางกะ',
+    );
+    if (picked != null) {
+      setState(() {
+        _scheduleDate = picked;
+      });
+    }
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Shift Schedule')),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const Text(
+                            'ตารางกะทำงาน',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'วันที่: ${_formatDate(_scheduleDate)}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              ElevatedButton(
+                                onPressed: _pickScheduleDate,
+                                child: const Text('เลือกวันที่'),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Table(
+                            border: TableBorder.all(color: Colors.white12),
+                            columnWidths: const {
+                              0: FlexColumnWidth(2),
+                              1: FlexColumnWidth(3),
+                            },
+                            children: [
+                              TableRow(
+                                decoration: BoxDecoration(
+                                  color: Colors.white10,
+                                ),
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      'กะ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      'ชื่อพนักงาน',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text('กะเช้า'),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Wrap(
+                                          spacing: 8,
+                                          runSpacing: 8,
+                                          children: _morningNames
+                                              .asMap()
+                                              .entries
+                                              .map(
+                                                (entry) => Chip(
+                                                  label: Text(entry.value),
+                                                  onDeleted: () =>
+                                                      _removeStaffFromShift(
+                                                        _morningNames,
+                                                        entry.key,
+                                                      ),
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                        if (_morningNames.isEmpty)
+                                          const Padding(
+                                            padding: EdgeInsets.only(top: 8),
+                                            child: Text('ยังไม่ได้เพิ่มคน'),
+                                          ),
+                                        const SizedBox(height: 12),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: DropdownButtonFormField<String>(
+                                                initialValue:
+                                                    _selectedMorningAdd,
+                                                items: _availableNames
+                                                    .map(
+                                                      (name) =>
+                                                          DropdownMenuItem(
+                                                            value: name,
+                                                            child: Text(name),
+                                                          ),
+                                                    )
+                                                    .toList(),
+                                                onChanged: (value) => setState(
+                                                  () => _selectedMorningAdd =
+                                                      value,
+                                                ),
+                                                decoration:
+                                                    const InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                    ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            ElevatedButton(
+                                              onPressed:
+                                                  (_morningNames.length >= 3 ||
+                                                      _selectedMorningAdd ==
+                                                          null)
+                                                  ? null
+                                                  : () => _addStaffToShift(
+                                                      _morningNames,
+                                                      _selectedMorningAdd,
+                                                    ),
+                                              child: const Text('เพิ่ม'),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          'จำนวนคน: ${_morningNames.length} / 3',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white70,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text('กลางคืน'),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Wrap(
+                                          spacing: 8,
+                                          runSpacing: 8,
+                                          children: _nightNames
+                                              .asMap()
+                                              .entries
+                                              .map(
+                                                (entry) => Chip(
+                                                  label: Text(entry.value),
+                                                  onDeleted: () =>
+                                                      _removeStaffFromShift(
+                                                        _nightNames,
+                                                        entry.key,
+                                                      ),
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                        if (_nightNames.isEmpty)
+                                          const Padding(
+                                            padding: EdgeInsets.only(top: 8),
+                                            child: Text('ยังไม่ได้เพิ่มคน'),
+                                          ),
+                                        const SizedBox(height: 12),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child:
+                                                  DropdownButtonFormField<
+                                                    String
+                                                  >(
+                                                    initialValue:
+                                                        _selectedNightAdd,
+                                                    items: _availableNames
+                                                        .map(
+                                                          (name) =>
+                                                              DropdownMenuItem(
+                                                                value: name,
+                                                                child: Text(
+                                                                  name,
+                                                                ),
+                                                              ),
+                                                        )
+                                                        .toList(),
+                                                    onChanged: (value) =>
+                                                        setState(
+                                                          () =>
+                                                              _selectedNightAdd =
+                                                                  value,
+                                                        ),
+                                                    decoration:
+                                                        const InputDecoration(
+                                                          border:
+                                                              OutlineInputBorder(),
+                                                        ),
+                                                  ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            ElevatedButton(
+                                              onPressed:
+                                                  (_nightNames.length >= 3 ||
+                                                      _selectedNightAdd == null)
+                                                  ? null
+                                                  : () => _addStaffToShift(
+                                                      _nightNames,
+                                                      _selectedNightAdd,
+                                                    ),
+                                              child: const Text('เพิ่ม'),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          'จำนวนคน: ${_nightNames.length} / 3',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white70,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TableRow(
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text('Day off'),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.stretch,
+                                      children: [
+                                        Wrap(
+                                          spacing: 8,
+                                          runSpacing: 8,
+                                          children: _dayOffNames
+                                              .asMap()
+                                              .entries
+                                              .map(
+                                                (entry) => Chip(
+                                                  label: Text(entry.value),
+                                                  onDeleted: () =>
+                                                      _removeStaffFromShift(
+                                                        _dayOffNames,
+                                                        entry.key,
+                                                      ),
+                                                ),
+                                              )
+                                              .toList(),
+                                        ),
+                                        if (_dayOffNames.isEmpty)
+                                          const Padding(
+                                            padding: EdgeInsets.only(top: 8),
+                                            child: Text('ยังไม่ได้เพิ่มคน'),
+                                          ),
+                                        const SizedBox(height: 12),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: DropdownButtonFormField<String>(
+                                                initialValue:
+                                                    _selectedDayOffAdd,
+                                                items: _availableNames
+                                                    .map(
+                                                      (name) =>
+                                                          DropdownMenuItem(
+                                                            value: name,
+                                                            child: Text(name),
+                                                          ),
+                                                    )
+                                                    .toList(),
+                                                onChanged: (value) => setState(
+                                                  () => _selectedDayOffAdd =
+                                                      value,
+                                                ),
+                                                decoration:
+                                                    const InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                    ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            ElevatedButton(
+                                              onPressed:
+                                                  (_dayOffNames.length >= 3 ||
+                                                      _selectedDayOffAdd ==
+                                                          null)
+                                                  ? null
+                                                  : () => _addStaffToShift(
+                                                      _dayOffNames,
+                                                      _selectedDayOffAdd,
+                                                    ),
+                                              child: const Text('เพิ่ม'),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          'จำนวนคน: ${_dayOffNames.length} / 3',
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.white70,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          const Text('ชื่อที่มีให้เลือก'),
+                          const SizedBox(height: 8),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: _availableNames
+                                .map((name) => Chip(label: Text(name)))
+                                .toList(),
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: _customNameController,
+                                  decoration: const InputDecoration(
+                                    labelText: 'เพิ่มชื่อใหม่',
+                                    hintText: 'เช่น พัท หรือ ชื่ออื่น',
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              ElevatedButton(
+                                onPressed: _addCustomName,
+                                child: const Text('เพิ่ม'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _saveSchedule,
+                    child: const Text('บันทึกตารางกะ'),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton(
+                    onPressed: _viewSavedSchedule,
+                    child: const Text('ดูผลการบันทึก'),
+                  ),
+                ],
+              ),
+            ),
+    );
+  }
+}
+
+class ShiftScheduleResultScreen extends StatelessWidget {
+  final List<ShiftEntry> entries;
+  final String dateText;
+
+  const ShiftScheduleResultScreen({
+    super.key,
+    required this.entries,
+    required this.dateText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('ผลการบันทึกตารางกะ')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'วันที่: $dateText',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'สรุปจำนวนคน',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Table(
+                      border: TableBorder.all(color: Colors.white12),
+                      columnWidths: const {
+                        0: FlexColumnWidth(2),
+                        1: FlexColumnWidth(1),
+                        2: FlexColumnWidth(1),
+                        3: FlexColumnWidth(1),
+                      },
+                      children: [
+                        TableRow(
+                          decoration: BoxDecoration(color: Colors.white10),
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.all(12),
+                              child: Text(
+                                'รายการ',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(12),
+                              child: Text(
+                                'A',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(12),
+                              child: Text(
+                                'B',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(12),
+                              child: Text(
+                                'Day off',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                        TableRow(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Text('จำนวนคน'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                entries
+                                    .firstWhere(
+                                      (entry) => entry.shiftLabel == 'A',
+                                      orElse: () => ShiftEntry(
+                                        shiftLabel: 'A',
+                                        staffNames: [],
+                                        scheduleDate: DateTime.now(),
+                                      ),
+                                    )
+                                    .staffNames
+                                    .length
+                                    .toString(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                entries
+                                    .firstWhere(
+                                      (entry) => entry.shiftLabel == 'B',
+                                      orElse: () => ShiftEntry(
+                                        shiftLabel: 'B',
+                                        staffNames: [],
+                                        scheduleDate: DateTime.now(),
+                                      ),
+                                    )
+                                    .staffNames
+                                    .length
+                                    .toString(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                entries
+                                    .firstWhere(
+                                      (entry) => entry.shiftLabel == 'Day off',
+                                      orElse: () => ShiftEntry(
+                                        shiftLabel: 'Day off',
+                                        staffNames: [],
+                                        scheduleDate: DateTime.now(),
+                                      ),
+                                    )
+                                    .staffNames
+                                    .length
+                                    .toString(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Table(
+                  border: TableBorder.all(color: Colors.white12),
+                  columnWidths: const {
+                    0: FlexColumnWidth(2),
+                    1: FlexColumnWidth(3),
+                  },
+                  children: [
+                    TableRow(
+                      decoration: BoxDecoration(color: Colors.white10),
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Text(
+                            'กะ',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Text(
+                            'พนักงาน',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                    ...entries.map((entry) {
+                      final staffText = entry.staffNames.isEmpty
+                          ? 'ยังไม่มีคน'
+                          : entry.staffNames.join(', ');
+                      return TableRow(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(entry.shiftLabel),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Text(staffText),
+                          ),
+                        ],
+                      );
+                    }),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class WiFiPasswordScreen extends StatefulWidget {
   const WiFiPasswordScreen({super.key});
 
@@ -747,9 +1990,14 @@ class _WiFiPasswordScreenState extends State<WiFiPasswordScreen> {
     await showDialog(
       context: context,
       builder: (context) => AddWiFiDialog(
-        onAdd: (ssid, password) async {
+        onAdd: (ssid, password, location, customerCode) async {
           await SheetSyncService.instance.addWiFiEntry(
-            WiFiEntry(ssid: ssid, password: password),
+            WiFiEntry(
+              ssid: ssid,
+              password: password,
+              location: location,
+              customerCode: customerCode,
+            ),
           );
           await _loadEntries();
         },
@@ -762,10 +2010,15 @@ class _WiFiPasswordScreenState extends State<WiFiPasswordScreen> {
       context: context,
       builder: (context) => EditWiFiDialog(
         entry: wifiEntries[index],
-        onSave: (ssid, password) async {
+        onSave: (ssid, password, location, customerCode) async {
           await SheetSyncService.instance.updateWiFiEntry(
             index,
-            WiFiEntry(ssid: ssid, password: password),
+            WiFiEntry(
+              ssid: ssid,
+              password: password,
+              location: location,
+              customerCode: customerCode,
+            ),
           );
           await _loadEntries();
         },
@@ -1108,13 +2361,54 @@ class WorkNote {
 class WiFiEntry {
   final String ssid;
   final String password;
+  final String location;
+  final String customerCode;
 
-  WiFiEntry({required this.ssid, required this.password});
+  WiFiEntry({
+    required this.ssid,
+    required this.password,
+    required this.location,
+    required this.customerCode,
+  });
 
-  Map<String, dynamic> toJson() => {'ssid': ssid, 'password': password};
+  Map<String, dynamic> toJson() => {
+    'ssid': ssid,
+    'password': password,
+    'location': location,
+    'customerCode': customerCode,
+  };
 
-  static WiFiEntry fromJson(Map<String, dynamic> json) =>
-      WiFiEntry(ssid: json['ssid'] ?? '', password: json['password'] ?? '');
+  static WiFiEntry fromJson(Map<String, dynamic> json) => WiFiEntry(
+    ssid: json['ssid'] ?? '',
+    password: json['password'] ?? '',
+    location: json['location'] ?? '',
+    customerCode: json['customerCode'] ?? '',
+  );
+}
+
+class ShiftEntry {
+  final String shiftLabel;
+  final List<String> staffNames;
+  final DateTime scheduleDate;
+
+  ShiftEntry({
+    required this.shiftLabel,
+    required this.staffNames,
+    required this.scheduleDate,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'shiftLabel': shiftLabel,
+    'staffNames': staffNames,
+    'scheduleDate': scheduleDate.toIso8601String(),
+  };
+
+  static ShiftEntry fromJson(Map<String, dynamic> json) => ShiftEntry(
+    shiftLabel: json['shiftLabel'] ?? '',
+    staffNames: List<String>.from(json['staffNames'] ?? []),
+    scheduleDate:
+        DateTime.tryParse(json['scheduleDate'] ?? '') ?? DateTime.now(),
+  );
 }
 
 class MicrophoneEntry {
@@ -1275,9 +2569,20 @@ class _WorkNoteDialogState extends State<WorkNoteDialog> {
     _scheduledAt = note?.scheduledAt ?? DateTime.now();
     _beforeImages = List<String>.from(note?.beforeImages ?? []);
     _afterImages = List<String>.from(note?.afterImages ?? []);
-    _documentNumber =
-        note?.documentNumber ??
-        SheetSyncService.instance.generateDocumentNumber(widget.workType);
+    _documentNumber = note?.documentNumber ?? 'Loading...';
+    if (note == null) {
+      _initializeDocumentNumber();
+    }
+  }
+
+  Future<void> _initializeDocumentNumber() async {
+    final number = await SheetSyncService.instance.generateDocumentNumber(
+      widget.workType,
+    );
+    if (!mounted) return;
+    setState(() {
+      _documentNumber = number;
+    });
   }
 
   Future<void> _pickImages(bool before) async {
@@ -1765,7 +3070,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Future<void> _pickFrom() async {
     final d = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: _from ?? DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
     );
@@ -1775,7 +3080,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
   Future<void> _pickTo() async {
     final d = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: _to ?? DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),
     );
@@ -1784,9 +3089,24 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
   Future<Uint8List> _buildPdf(List<WorkNote> notes) async {
     final doc = pw.Document();
+    final defaultFont = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/Sarabun-Regular.ttf'),
+    );
+    final boldFont = pw.Font.ttf(
+      await rootBundle.load('assets/fonts/Sarabun-Bold.ttf'),
+    );
+
+    final baseStyle = pw.TextStyle(font: defaultFont, fontSize: 12);
+    final boldStyle = pw.TextStyle(
+      font: boldFont,
+      fontSize: 12,
+      fontWeight: pw.FontWeight.bold,
+    );
+
     doc.addPage(
       pw.MultiPage(
         pageFormat: pdf.PdfPageFormat.a4,
+        theme: pw.ThemeData.withFont(base: defaultFont, bold: boldFont),
         build: (ctx) {
           return [
             pw.Row(
@@ -1794,63 +3114,80 @@ class _ReportsScreenState extends State<ReportsScreen> {
               children: [
                 pw.Text(
                   'Report - $_type',
-                  style: pw.TextStyle(
-                    fontSize: 18,
-                    fontWeight: pw.FontWeight.bold,
-                  ),
+                  style: boldStyle.copyWith(fontSize: 18),
                 ),
                 pw.Text(
                   'Date: ${DateTime.now().toIso8601String().split('T').first}',
+                  style: baseStyle,
                 ),
               ],
             ),
             pw.SizedBox(height: 12),
             pw.Text(
               'Filter: from ${_from?.toIso8601String().split('T').first ?? '-'} to ${_to?.toIso8601String().split('T').first ?? '-'}',
+              style: baseStyle,
             ),
             pw.SizedBox(height: 12),
             ...notes.asMap().entries.expand<pw.Widget>((entry) {
+              final index = entry.key;
               final note = entry.value;
               return [
+                if (index > 0) pw.NewPage(),
                 pw.Divider(),
-                pw.Text(
-                  'Document: ${note.documentNumber}',
-                  style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                ),
-                pw.Text('Title: ${note.title}'),
-                pw.Text('Type: ${note.noteType}'),
+                pw.Text('Document: ${note.documentNumber}', style: boldStyle),
+                pw.Text('Title: ${note.title}', style: baseStyle),
+                pw.Text('Type: ${note.noteType}', style: baseStyle),
                 pw.Text(
                   'Scheduled: ${note.scheduledAt.toIso8601String().replaceFirst('T', ' ')}',
+                  style: baseStyle,
                 ),
-                pw.Text('Location: ${note.location}'),
+                pw.Text('Location: ${note.location}', style: baseStyle),
                 if (note.requesters.isNotEmpty)
-                  pw.Text('Requester(s): ${note.requesters.join(', ')}'),
+                  pw.Text(
+                    'Requester(s): ${note.requesters.join(', ')}',
+                    style: baseStyle,
+                  ),
                 if (note.assistants.isNotEmpty)
-                  pw.Text('Assistant(s): ${note.assistants.join(', ')}'),
+                  pw.Text(
+                    'Assistant(s): ${note.assistants.join(', ')}',
+                    style: baseStyle,
+                  ),
                 if (note.issueCategory.isNotEmpty)
-                  pw.Text('Issue Category: ${note.issueCategory}'),
+                  pw.Text(
+                    'Issue Category: ${note.issueCategory}',
+                    style: baseStyle,
+                  ),
                 if (note.problemReceived.isNotEmpty)
-                  pw.Text('Problem Received: ${note.problemReceived}'),
+                  pw.Text(
+                    'Problem Received: ${note.problemReceived}',
+                    style: baseStyle,
+                  ),
                 if (note.problemOccurred.isNotEmpty)
-                  pw.Text('Problem Occurred: ${note.problemOccurred}'),
+                  pw.Text(
+                    'Problem Occurred: ${note.problemOccurred}',
+                    style: baseStyle,
+                  ),
                 if (note.beforeNote.isNotEmpty) ...[
                   pw.SizedBox(height: 4),
-                  pw.Text('Before Note:'),
-                  pw.Text(note.beforeNote),
+                  pw.Text('Before Note:', style: boldStyle),
+                  pw.Text(note.beforeNote, style: baseStyle),
                 ],
                 if (note.afterNote.isNotEmpty) ...[
                   pw.SizedBox(height: 4),
-                  pw.Text('After Note:'),
-                  pw.Text(note.afterNote),
+                  pw.Text('After Note:', style: boldStyle),
+                  pw.Text(note.afterNote, style: baseStyle),
                 ],
                 if (note.description.isNotEmpty) ...[
                   pw.SizedBox(height: 4),
-                  pw.Text('Notes:'),
-                  pw.Text(note.description),
+                  pw.Text('Notes:', style: boldStyle),
+                  pw.Text(note.description, style: baseStyle),
                 ],
                 if (note.beforeImages.isNotEmpty) ...[
                   pw.SizedBox(height: 8),
-                  pw.Text('Before Images (${note.beforeImages.length})'),
+                  pw.Text(
+                    'Before Images (${note.beforeImages.length})',
+                    style: boldStyle,
+                  ),
                   pw.Wrap(
                     spacing: 8,
                     runSpacing: 8,
@@ -1873,7 +3210,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
                 ],
                 if (note.afterImages.isNotEmpty) ...[
                   pw.SizedBox(height: 8),
-                  pw.Text('After Images (${note.afterImages.length})'),
+                  pw.Text(
+                    'After Images (${note.afterImages.length})',
+                    style: boldStyle,
+                  ),
                   pw.Wrap(
                     spacing: 8,
                     runSpacing: 8,
@@ -1908,9 +3248,15 @@ class _ReportsScreenState extends State<ReportsScreen> {
     setState(() => _loading = true);
     try {
       final notes = await SheetSyncService.instance.fetchWorkNotes(_type);
+      final from = _from == null
+          ? null
+          : DateTime(_from!.year, _from!.month, _from!.day);
+      final to = _to == null
+          ? null
+          : DateTime(_to!.year, _to!.month, _to!.day, 23, 59, 59, 999);
       final filtered = notes.where((n) {
-        if (_from != null && n.scheduledAt.isBefore(_from!)) return false;
-        if (_to != null && n.scheduledAt.isAfter(_to!)) return false;
+        if (from != null && n.scheduledAt.isBefore(from)) return false;
+        if (to != null && n.scheduledAt.isAfter(to)) return false;
         return true;
       }).toList();
       final pdfData = await _buildPdf(filtered);
@@ -2324,8 +3670,20 @@ class WiFiCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Card(
     child: ListTile(
-      title: Text(entry.ssid),
-      subtitle: Text(entry.password),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Location: ${entry.location}'),
+          Text('Customer Code: ${entry.customerCode}'),
+        ],
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('SSID: ${entry.ssid}'),
+          Text('Password: ${entry.password}'),
+        ],
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -2373,7 +3731,7 @@ class MicrophoneCard extends StatelessWidget {
 }
 
 class AddWiFiDialog extends StatefulWidget {
-  final Function(String, String) onAdd;
+  final Function(String, String, String, String) onAdd;
 
   const AddWiFiDialog({super.key, required this.onAdd});
 
@@ -2384,6 +3742,9 @@ class AddWiFiDialog extends StatefulWidget {
 class _AddWiFiDialogState extends State<AddWiFiDialog> {
   final _s = TextEditingController();
   final _p = TextEditingController();
+  final _location = TextEditingController();
+  final _customerCode = TextEditingController();
+
   @override
   Widget build(BuildContext context) => AlertDialog(
     title: const Text('Add WiFi'),
@@ -2391,9 +3752,20 @@ class _AddWiFiDialogState extends State<AddWiFiDialog> {
       mainAxisSize: MainAxisSize.min,
       children: [
         TextField(
+          controller: _location,
+          decoration: const InputDecoration(labelText: 'ชื่อสถานที่'),
+        ),
+        const SizedBox(height: 12),
+        TextField(
+          controller: _customerCode,
+          decoration: const InputDecoration(labelText: 'รหัสลูกค้า'),
+        ),
+        const SizedBox(height: 12),
+        TextField(
           controller: _s,
           decoration: const InputDecoration(labelText: 'SSID'),
         ),
+        const SizedBox(height: 12),
         TextField(
           controller: _p,
           decoration: const InputDecoration(labelText: 'Password'),
@@ -2407,7 +3779,8 @@ class _AddWiFiDialogState extends State<AddWiFiDialog> {
         child: const Text('Cancel'),
       ),
       TextButton(
-        onPressed: () => widget.onAdd(_s.text, _p.text),
+        onPressed: () =>
+            widget.onAdd(_s.text, _p.text, _location.text, _customerCode.text),
         child: const Text('Add'),
       ),
     ],
@@ -2416,7 +3789,7 @@ class _AddWiFiDialogState extends State<AddWiFiDialog> {
 
 class EditWiFiDialog extends StatefulWidget {
   final WiFiEntry entry;
-  final Function(String, String) onSave;
+  final Function(String, String, String, String) onSave;
 
   const EditWiFiDialog({super.key, required this.entry, required this.onSave});
 
@@ -2427,11 +3800,16 @@ class EditWiFiDialog extends StatefulWidget {
 class _EditWiFiDialogState extends State<EditWiFiDialog> {
   late final TextEditingController _s;
   late final TextEditingController _p;
+  late final TextEditingController _location;
+  late final TextEditingController _customerCode;
+
   @override
   void initState() {
     super.initState();
     _s = TextEditingController(text: widget.entry.ssid);
     _p = TextEditingController(text: widget.entry.password);
+    _location = TextEditingController(text: widget.entry.location);
+    _customerCode = TextEditingController(text: widget.entry.customerCode);
   }
 
   @override
@@ -2441,9 +3819,20 @@ class _EditWiFiDialogState extends State<EditWiFiDialog> {
       mainAxisSize: MainAxisSize.min,
       children: [
         TextField(
+          controller: _location,
+          decoration: const InputDecoration(labelText: 'ชื่อสถานที่'),
+        ),
+        const SizedBox(height: 12),
+        TextField(
+          controller: _customerCode,
+          decoration: const InputDecoration(labelText: 'รหัสลูกค้า'),
+        ),
+        const SizedBox(height: 12),
+        TextField(
           controller: _s,
           decoration: const InputDecoration(labelText: 'SSID'),
         ),
+        const SizedBox(height: 12),
         TextField(
           controller: _p,
           decoration: const InputDecoration(labelText: 'Password'),
@@ -2457,7 +3846,8 @@ class _EditWiFiDialogState extends State<EditWiFiDialog> {
         child: const Text('Cancel'),
       ),
       TextButton(
-        onPressed: () => widget.onSave(_s.text, _p.text),
+        onPressed: () =>
+            widget.onSave(_s.text, _p.text, _location.text, _customerCode.text),
         child: const Text('Save'),
       ),
     ],
@@ -2594,17 +3984,20 @@ class SheetSyncService {
   static const _wifiEntriesKey = 'wifi_entries_v1';
   static const _micEntriesKey = 'mic_entries_v1';
   static const _manualFilesKey = 'manual_guide_files';
+  static const _shiftScheduleKey = 'shift_schedule_v1';
 
   final List<WorkNote> pmNotes = [];
   final List<WorkNote> cmNotes = [];
   final List<WiFiEntry> wifiEntries = [];
   final List<MicrophoneEntry> microphoneEntries = [];
   final List<ManualFileEntry> manualFiles = [];
+  final List<ShiftEntry> shiftSchedule = [];
 
   bool _notesLoaded = false;
   bool _wifiLoaded = false;
   bool _micLoaded = false;
   bool _manualFilesLoaded = false;
+  bool _shiftScheduleLoaded = false;
 
   SheetSyncService._private();
   static final instance = SheetSyncService._private();
@@ -2688,7 +4081,8 @@ class SheetSyncService {
     await _saveNotes();
   }
 
-  String generateDocumentNumber(String type) {
+  Future<String> generateDocumentNumber(String type) async {
+    await _loadNotes();
     final count = type == 'PM' ? pmNotes.length : cmNotes.length;
     final now = DateTime.now();
     return '$type-${now.year}${now.month.toString().padLeft(2, '0')}-${(count + 1).toString().padLeft(3, '0')}';
@@ -2743,6 +4137,42 @@ class SheetSyncService {
       wifiEntries.removeAt(index);
       await _saveWiFi();
     }
+  }
+
+  Future<void> _loadShiftSchedule() async {
+    if (_shiftScheduleLoaded) return;
+    final prefs = await _prefs();
+    shiftSchedule.clear();
+    final jsonString = prefs.getString(_shiftScheduleKey);
+    if (jsonString != null && jsonString.isNotEmpty) {
+      try {
+        final raw = jsonDecode(jsonString) as List<dynamic>;
+        shiftSchedule.addAll(
+          raw.whereType<Map<String, dynamic>>().map(ShiftEntry.fromJson),
+        );
+      } catch (_) {}
+    }
+    _shiftScheduleLoaded = true;
+  }
+
+  Future<void> _saveShiftSchedule() async {
+    final prefs = await _prefs();
+    await prefs.setString(
+      _shiftScheduleKey,
+      jsonEncode(shiftSchedule.map((e) => e.toJson()).toList()),
+    );
+  }
+
+  Future<List<ShiftEntry>> fetchShiftSchedule() async {
+    await _loadShiftSchedule();
+    return List<ShiftEntry>.from(shiftSchedule);
+  }
+
+  Future<void> saveShiftSchedule(List<ShiftEntry> entries) async {
+    await _loadShiftSchedule();
+    shiftSchedule.clear();
+    shiftSchedule.addAll(entries);
+    await _saveShiftSchedule();
   }
 
   Future<void> _loadMic() async {
